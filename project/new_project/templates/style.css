@@ -4,25 +4,16 @@
     box-sizing: border-box;
 }
 
-h1 {
-    padding: 30px;
-    font-size: 34px;
-    line-height: 39px;
+.container {
     text-align: center;
+    margin-top: 100px;
 }
 
-.button-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.button {
-    height: 25px;
-    width: 50px;
-    font-size: 20px;
-    text-align: center;
-    color: black;
+button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
 }
 
 #button1 {
@@ -31,9 +22,4 @@ h1 {
 
 #button2 {
     background-color: #d0312d;
-}
-
-#results {
-    text-align: center;
-    font-size: 50px;
 }
