@@ -1,6 +1,7 @@
-let results = document.getElementById("results");
+document.getElementById('button1').addEventListener('click', function() {
+    document.getElementById('results').innerText = 'научись играть';
+});
 
-document.getElementsByClassName("button").addEventListener('click', () => {
-    results.innerText = "Научись играть";
-    alert("кышмыш");
+document.getElementById('button2').addEventListener('click', function() {
+    document.getElementById('results').innerText = 'научись играть';
 });
