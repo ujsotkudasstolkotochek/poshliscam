@@ -7,6 +7,9 @@
 <body>
     <h1>About page</h1>
     <br>
-    {{workers_data}}
+    {%for i in workers_data%}
+    {{i.name}} {{i.second_name}} {{i.selery}}
+    <br>
+    {%endfor%}
 </body>
 </html>
