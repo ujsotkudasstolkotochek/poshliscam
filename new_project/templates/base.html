@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type = 'text/css' media = 'screen' href = "{% static 'styles/main.css' %}">
+</head>
+<body>
+    <a href = "{% url 'home' %}">Pastebin</a>
+    <div class="wrapper">
+        <main>
+            <form method="GET" action="{% url 'home' %}">
+                <div style="margin-bottom: 1rem; position: relative;">
+                    <input class="text-field-input" type="text" name="q" placeholder="Search Bins..." />
+                    <span class="text-field-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                          <path
+                            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                        </svg>
+                    </span>
+                </div>
+
+            </form>
+
+            {% if request.user.is_authenticated %}
+                <p>Hello {{request.user}}</p>
+                <a href = "{% url 'user_profile' request.user.id %}">Profile</a>
+                <a href="{% url 'logout' %}" class="btn">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="btn">Login</a>
+            {% endif %}
+
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li>{{message}}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+
+            <div class="container">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </main>
+        <footer id="footer">
+            <a href="about_page/"> About us.</a> <br/> 2024, All rigths reserved.
+            <p id="about-info"></p>
+        </footer>
+    </div>
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

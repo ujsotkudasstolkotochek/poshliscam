@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Bins</h1>
+
+<div>
+    <h2>{{bin_count}} bins are available</h2>
+    <a href="{% url 'create_bin' %}" class="btn">Create bin</a>
+    <div class="bin-container">
+        {%for bin in bins %}
+            <div class="bin-value">
+                {% if request.user == bin.host %}
+                    <h4>It is your bin</h4>
+                    <a href="{% url 'update_bin' bin.id %}" id="edit">Edit</a>
+                    <a href="{% url 'delete_bin' bin.id %}" id="delete">Delete</a>
+                {% endif %}
+                {% if request.user != bin.host %}
+                    <h4> by <a href = "{% url 'user_profile' bin.host.id %}">{{bin.host.username}}</a></h4>
+                {% endif %}
+                <h3><a href="{% url 'bin' bin.id %}">{{bin.name}}</a></h3>
+                {% if request.user.is_authenticated %}
+                    {% if request.user != bin.host %}
+                            <form action = "{% url 'like_bin' bin.id %}" method = "POST">
+                                {%csrf_token%}
+                                <button type = "submit", name = "bin_id", value = "{{bin.id}}">Like</button> - {{bin.total_likes}}
+                            </form>
+                    {% endif %}
+                {% endif %}
+                <hr>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

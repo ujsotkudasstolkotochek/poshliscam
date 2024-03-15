@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{bin.name}}</h1>
+<hr>
+<p>{{bin.description}}
+    {% if request.user.is_authenticated %}
+        {% if request.user != bin.host %}
+            <form action = "{% url 'like_from_bin' bin.id %}" method = "POST">
+                {%csrf_token%}
+                <button type = "submit", name = "bin_id", value = "{{bin.id}}">Like</button> - {{bin.total_likes}}
+            </form>
+        {% endif %}
+    {% endif %}
+</p>
+<hr>
+<div class = "comment-wrapper">
+    <h3>Comments</h3>
+
+    {% for comment in comments %}
+    <div>
+        {% if request.user == comment.user %}
+        <a href = "{% url 'delete_comment' comment.id %}">Delete comment</a>
+        {% endif %}
+        <small>@{{comment.user}}  {{comment.created|timesince}} ago</small>
+        <p>{{comment.body}}</p>
+        <hr>
+    </div>
+    {% endfor %}
+
+</div>
+
+{% if request.user.is_authenticated %}
+<div class = "comment-form">
+    <form method = "POST" action = "">
+        {% csrf_token %}
+        <input type = "text" name = "body" placeholder = "Write your comment here...">
+    </form>
+</div>
+{% endif %}
+
+{% endblock %}
