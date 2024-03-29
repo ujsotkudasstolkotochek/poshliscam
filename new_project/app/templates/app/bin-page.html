@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="bin-wrapper">
+    <h1>{{bin.name}}</h1>
+    <p>{{bin.description}}</p>
+        {% if request.user.is_authenticated %}
+            {% if request.user != bin.host %}
+                <form action = "{% url 'like_from_bin' bin.id %}" method = "POST">
+                    {%csrf_token%}
+                    <button type="submit" name="bin_id" value="{{bin.id}}"><i class="fa fa-heart"></i></button> - {{bin.total_likes}} Likes
+                </form>
+            {% endif %}
+        {% endif %}
+</div>
+<div class="comment-wrapper">
+    <h2>Comments</h2>
+
+    {% for comment in comments %}
+    <div class="comment">
+        <div class="bin-extra">
+            <div>
+                <small>{{comment.user}}</small><br/>
+                <small>{{comment.created|timesince}} ago</small>
+            </div>
+            {% if request.user == comment.user %}
+            <div>
+                <!--<a href="{% url 'delete_comment' comment.id %}"><i class="fa fa-trash-o"></i></a>-->
+                <a href="#" id="popup-open"><i class="fa fa-trash-o"></i></a>
+            </div>
+            {% endif %}
+        </div>
+        <p>{{comment.body}}</p>
+    </div>
+    <div class="popup" id="popup">
+        <div class="popup-body">
+            <div class="delete-form">
+                <form method="POST" action="{% url 'delete_comment' comment.id %}">
+                    {% csrf_token %}
+                    <p> Are u sure u want to delete "{{comment}}"?</p>
+                    <a href="{{request.META.HTTP_REFERER}}" class="btn">Go back</a>
+                    <input type="submit" value="Confirm" class="submit" />
+                </form>
+            </div>
+            <button class="btn-close" id="popup-close">X</button>
+        </div>
+    </div>    
+    {% endfor %}
+
+    {% if request.user.is_authenticated %}
+    <div class="comment-form">
+        <form method="POST" action="">
+            {% csrf_token %}
+            <input type="text" name="body" placeholder="Write your comment here...">
+        </form>
+    </div>
+    {% endif %}
+</div>
+
+
+{% endblock %}

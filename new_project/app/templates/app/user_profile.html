@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="user-profile">
+    <div class="user-card">
+        <h1>{{user.username}}ʼs  profile</h1>
+        <h3>{{user.email}}</h3>
+        <h3>{{user.bio}}</h3>
+        {% if request.user == user %}
+            <a href="{% url 'update_user' %}" class="btn">Edit profile</a>
+        {% endif %}
+    </div>
+    <div class="user-bins">
+        <h2>User bins</h2>
+        {% for bin in bins %}
+            <h3><a href="{% url 'bin' bin.id %}">{{bin.name}}</a></h3>
+        {% endfor %}
+    </div>
+    <div class="user-likes">
+        <h2>Liked bins</h2>
+        {% for bin in liked_bins %}
+            <h3><a href="{% url 'bin' bin.id %}">{{bin.name}}</a> by {{bin.host.username}}</h3>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
