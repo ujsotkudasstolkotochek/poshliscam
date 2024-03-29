@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form action="" method="POST" class="bin-form">
+        <h2>Create a new bin</h2>
+        {% csrf_token %}
+        <div class="login-box">
+            <label for="name">Title:</label><br/>
+            <input type="text" name="name" value="{{bin.name}}"/>
+        </div>
+            <label for="description">Bin Text:</label><br/>
+            <textarea rows="10" name="description">{{.description}}</textarea><br/>
+        <!--{{ form.as_p }}-->
+        <input type="submit" value="Create" name="create" />
+    </form>
+<!--    <p>
+        <a href="/bin_page" class="btn">Create</a>
+    </p>-->
+{% endblock %}

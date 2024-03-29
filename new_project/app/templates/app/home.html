@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form method="GET" action="{% url 'home' %}" class="search">
+    <input type="text" name="q" placeholder="Search Bins..." />
+    <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+</form>
+
+<h1>Bins</h1>
+
+<div>
+    <h2>{{bin_count}} bins are available</h2>
+    <div class="bin-container">
+        <a href="{% url 'create_bin' %}" id="create">
+        <div class="bin-value">
+            <span>+</span>
+            <p>Create new</p>
+        </div>
+        </a>
+        {%for bin in bins %}
+            <div class="bin-value">
+                {% if request.user == bin.host %}
+                    <h4 id="host">It is your bin</h4>   
+                {% endif %}
+                {% if request.user != bin.host %}
+                    <h3> by <a href="{% url 'user_profile' bin.host.id %}">{{bin.host.username}}</a></h3>
+                {% endif %}
+                <h3 style="font-style: italic; margin: 100px auto"><a href="{% url 'bin' bin.id %}">{{bin.name}}</a></h3>
+                {% if request.user.is_authenticated %}
+                    {% if request.user != bin.host %}
+                        {% if request.user not in bin.likes.all  %}
+                                <form action="{% url 'like_bin' bin.id %}" method="POST">
+                                    {%csrf_token%}
+                                    <button type="submit" name="bin_id" value="{{bin.id}}">Like</button> - {{bin.total_likes}}
+                                </form>
+                        {% else %}
+                            <form action="{% url 'like_bin' bin.id %}" method="POST">
+                                {%csrf_token%}
+                                <button type="submit" name="bin_id" value="{{bin.id}}">Dislike</button> - {{bin.total_likes}}
+                            </form>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+                {% if request.user == bin.host %}
+                    <a href="{% url 'update_bin' bin.id %}" class="btn" id="edit">Edit</a>
+                    <a href="{% url 'delete_bin' bin.id %}" class="btn" id="delete">Delete</a>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
