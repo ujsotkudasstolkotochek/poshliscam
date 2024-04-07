@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div style="margin-bottom: 10px;">
+    <form class="form" action="" method="POST">
+        <h2>Edit your profile</h2>
+        {% csrf_token %}
+        <div class="login-box">
+            <input type="text" name="username" placeholder="Your name" value="{{user.username}}"/>
+        </div>
+        <div class="login-box">
+            <input type="email" name="email" placeholder="Your email" value="{{user.email}}" />
+        </div>
+        <textarea name="bio" rows="10" placeholder="Your bio">{{user.bio}}</textarea><br/>
+        <a href="{% url 'home' %}" class="btn">Cancel</a>
+        <button type="submit"class="submit">Update</button>
+    </form>
+</div>
+
+{% endblock %}
