@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div>
+  <form method='POST' action='' class="form">
+    <h2>Log In</h2>
+    {% csrf_token %}
+    <div class="login-box">
+      <input type="text" name="username" placeholder="Enter email" class="full-input" required/>
+    </div>
+    <div class="login-box">
+      <input type="password" name="password" placeholder="Enter password" class="half-input" id="password-field" required/>
+      <i class="fa fa-eye-slash" id="toggle-password"></i>
+    </div>
+    <input type="submit" value="Log In" class="submit" />
+  </form>
+  <div class="additional">
+    <p>Haven't signed up yet?</p>
+    <a href="{% url 'register' %}" class="btn">Sign up</a>
+  </div>
+</div>
+{% endblock content %}
